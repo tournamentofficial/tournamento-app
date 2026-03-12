@@ -1,412 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FF Esports Arena</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#0a0f1c;
-color:white;
-display:flex;
-justify-content:center;
-}
-
-.app{
-width:420px;
-min-height:100vh;
-background:linear-gradient(#0e1630,#121f44);
-padding-bottom:80px;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-padding:15px;
-background:#101b38;
-}
-
-.wallet{
-background:#00ffd0;
-color:black;
-padding:6px 14px;
-border-radius:20px;
-font-weight:bold;
-}
-
-.card{
-background:#172a55;
-margin:15px;
-padding:18px;
-border-radius:12px;
-box-shadow:0 0 15px rgba(0,0,0,.4);
-}
-
-input{
-width:85%;
-padding:10px;
-margin:8px;
-border:none;
-border-radius:8px;
-}
-
-button{
-background:#00ffd0;
-border:none;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.hidden{display:none}
-
-.nav{
-position:fixed;
-bottom:0;
-width:420px;
-display:flex;
-justify-content:space-around;
-background:#101b38;
-padding:10px;
-}
-
-.timer{
-font-size:28px;
-color:#00ffd0;
-}
-
-</style>
+<meta charset="UTF-8">
+<title>Tournamento</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div class="app">
-
 <header>
-
-<h3>🔥 FF Esports</h3>
-<div class="wallet">₹ <span id="wallet">0</span></div>
-
+<h2>🎮 Tournamento</h2>
+<div class="wallet">₹500</div>
 </header>
 
-<!-- LOGIN -->
+<section class="banner">
+<h1>Free Fire Pro League</h1>
+<p>Prize Pool ₹50,000</p>
+<button onclick="joinTournament()">Join Now</button>
+</section>
 
-<div id="login">
-
-<center>
-
-<h2>Signup</h2>
-
-<input id="suUser" placeholder="Username">
-<input id="suPass" type="password" placeholder="Password">
-
-<br>
-
-<button onclick="signup()">Signup</button>
-
-<h3>Login</h3>
-
-<input id="liUser" placeholder="Username">
-<input id="liPass" type="password" placeholder="Password">
-
-<br>
-
-<button onclick="login()">Login</button>
-
-</center>
-
-</div>
-
-<!-- HOME -->
-
-<div id="home" class="hidden">
-
-<div id="tournaments"></div>
-
-</div>
-
-<!-- PAYMENT -->
-
-<div id="payment" class="hidden">
-
-<center>
+<h3>Upcoming Tournaments</h3>
 
 <div class="card">
-
-<h3>💳 Pay Entry Fee</h3>
-
-<input id="txn" placeholder="Transaction ID">
-
-<br>
-
-<button onclick="submitPayment()">Submit Payment</button>
-
-<h3>Match Countdown</h3>
-
-<div class="timer" id="timer">30</div>
-
-<h3>Room Details</h3>
-
-<p id="room"></p>
-
+<h4>Battle Royale Solo</h4>
+<p>Entry ₹20</p>
+<button onclick="joinTournament()">Join</button>
 </div>
-
-</center>
-
-</div>
-
-<!-- ADMIN -->
-
-<div id="admin" class="hidden">
 
 <div class="card">
-
-<h3>⚙ Admin Panel</h3>
-
-<button onclick="createTournament()">Create Tournament</button>
-
-<button onclick="changeAdminPassword()">Change Password</button>
-
-<hr>
-
-<div id="requests"></div>
-
-<hr>
-
-<p>Total Collection ₹ <span id="collection">0</span></p>
-<p>Total Profit ₹ <span id="profit">0</span></p>
-
+<h4>Squad Takedown</h4>
+<p>Entry ₹50</p>
+<button onclick="joinTournament()">Join</button>
 </div>
 
+<div class="card">
+<h4>COD Sniper Only</h4>
+<p>Entry FREE</p>
+<button onclick="joinTournament()">Join</button>
 </div>
 
-<nav class="nav hidden" id="nav">
-
-<button onclick="showHome()">🏠</button>
-<button onclick="showPayment()">💳</button>
-<button onclick="adminLogin()">⚙</button>
-
+<nav>
+<a href="index.html">Home</a>
+<a href="tournaments.html">Events</a>
+<a href="wallet.html">Wallet</a>
+<a href="profile.html">Profile</a>
 </nav>
 
-</div>
-
-<script>
-
-let users=JSON.parse(localStorage.getItem("users"))||{}
-let payments=JSON.parse(localStorage.getItem("payments"))||[]
-let tournaments=JSON.parse(localStorage.getItem("tournaments"))||[
-{name:"Free Fire Squad",fee:20,slots:0,max:40,prize:400}
-]
-
-if(!localStorage.getItem("adminID")){
-localStorage.setItem("adminID","shourya")
-localStorage.setItem("adminPass","868749733")
-}
-
-renderTournaments()
-
-function renderTournaments(){
-
-let html=""
-
-tournaments.forEach((t,i)=>{
-
-html+=`<div class="card">
-
-<h3>🔥 ${t.name}</h3>
-
-Entry Fee: ₹${t.fee}<br>
-Players: ${t.slots}/${t.max}<br>
-Prize: ₹${t.prize}
-
-<br><br>
-
-<button onclick="join(${i})">Join</button>
-
-</div>`
-
-})
-
-document.getElementById("tournaments").innerHTML=html
-
-}
-
-function signup(){
-
-let u=suUser.value
-let p=suPass.value
-
-users[u]={pass:p,wallet:0}
-
-localStorage.setItem("users",JSON.stringify(users))
-
-alert("Account created")
-
-}
-
-function login(){
-
-let u=liUser.value
-let p=liPass.value
-
-if(users[u] && users[u].pass===p){
-
-login.classList.add("hidden")
-home.classList.remove("hidden")
-nav.classList.remove("hidden")
-
-wallet.innerText=users[u].wallet
-
-}
-
-else alert("Wrong login")
-
-}
-
-function showHome(){
-home.classList.remove("hidden")
-payment.classList.add("hidden")
-}
-
-function showPayment(){
-payment.classList.remove("hidden")
-home.classList.add("hidden")
-}
-
-function join(i){
-
-showPayment()
-
-startTimer()
-
-}
-
-function submitPayment(){
-
-let txn=txn.value
-
-payments.push(txn)
-
-localStorage.setItem("payments",JSON.stringify(payments))
-
-alert("Payment submitted")
-
-}
-
-function adminLogin(){
-
-let id=prompt("Admin ID")
-let pass=prompt("Password")
-
-if(id===localStorage.getItem("adminID") && pass===localStorage.getItem("adminPass")){
-
-admin.classList.remove("hidden")
-
-loadRequests()
-
-}
-
-else alert("Wrong Admin")
-
-}
-
-function changeAdminPassword(){
-
-let p=prompt("New Password")
-
-if(p){
-
-localStorage.setItem("adminPass",p)
-
-alert("Password changed")
-
-}
-
-}
-
-function createTournament(){
-
-let name=prompt("Tournament name")
-let fee=prompt("Entry fee")
-let max=prompt("Max players")
-let prize=prompt("Prize")
-
-tournaments.push({name:name,fee:fee,slots:0,max:max,prize:prize})
-
-localStorage.setItem("tournaments",JSON.stringify(tournaments))
-
-renderTournaments()
-
-}
-
-function loadRequests(){
-
-let html=""
-
-payments.forEach((p,i)=>{
-
-html+=`<div class="card">
-
-Transaction: ${p}
-
-<br><br>
-
-<button onclick="approve(${i})">Approve</button>
-
-</div>`
-
-})
-
-requests.innerHTML=html
-
-}
-
-function approve(i){
-
-payments.splice(i,1)
-
-tournaments[0].slots++
-
-localStorage.setItem("payments",JSON.stringify(payments))
-
-localStorage.setItem("tournaments",JSON.stringify(tournaments))
-
-renderTournaments()
-
-let collection=tournaments[0].slots*20
-
-collectionDisplay(collection)
-
-}
-
-function collectionDisplay(c){
-
-collection.innerText=c
-profit.innerText=c-400
-
-}
-
-function startTimer(){
-
-let t=30
-
-let timer=setInterval(()=>{
-
-document.getElementById("timer").innerText=t
-
-t--
-
-if(t<0) clearInterval(timer)
-
-},1000)
-
-}
-
-</script>
+<script src="js/app.js"></script>
 
 </body>
 </html>
