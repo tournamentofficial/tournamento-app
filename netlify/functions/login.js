@@ -15,12 +15,18 @@ export async function handler(event) {
   if (result.rows.length > 0) {
     return {
       statusCode: 200,
+      headers:  { 
+        "content-type": "application/json"  
+      },
       body: JSON.stringify({ success: true })
     };
   }
 
   return {
     statusCode: 401,
+    headers: { 
+      "content-Type":"application/json"
+    },
     body: JSON.stringify({ success: false })
   };
 }
