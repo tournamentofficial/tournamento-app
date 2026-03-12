@@ -2,369 +2,226 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Esports Tournament</title>
+<title>Free Fire Arena</title>
 
 <style>
 
 body{
-margin:0;
 font-family:Arial;
-background:#071c1f;
+background:#0b1f23;
 color:white;
-}
-
-header{
-background:#0d2b2f;
-padding:15px;
-display:flex;
-justify-content:space-between;
-}
-
-.wallet{
-background:#00e0c6;
-color:black;
-padding:6px 12px;
-border-radius:8px;
+text-align:center;
 }
 
 .container{
 padding:20px;
 }
 
-.card{
-background:#0f2d31;
-border-radius:15px;
-margin-bottom:20px;
-overflow:hidden;
-}
-
-.card img{
-width:100%;
-height:150px;
-object-fit:cover;
-}
-
-.card-body{
-padding:15px;
+input{
+padding:10px;
+margin:5px;
+width:200px;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
-background:linear-gradient(90deg,#ff00ff,#9d00ff);
+padding:10px 20px;
+background:#ff00ff;
 border:none;
-border-radius:10px;
 color:white;
-font-size:15px;
 }
 
 .hidden{
 display:none;
 }
 
-.nav{
-position:fixed;
-bottom:0;
-width:100%;
-background:#0d2b2f;
-display:flex;
-justify-content:space-around;
-padding:10px;
-}
-
-.nav div{
-font-size:12px;
-cursor:pointer;
-}
-
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<header>
+<h2>Free Fire Arena</h2>
 
-<h2>Esports Arena</h2>
+<!-- LOGIN PAGE -->
 
-<div class="wallet">₹ <span id="wallet">500</span></div>
+<div id="loginPage" class="container">
 
-</header>
+<h3>Login</h3>
 
+<input id="loginUser" placeholder="Username"><br>
 
-<div class="container" id="home">
+<input id="loginPass" type="password" placeholder="Password"><br>
 
-<!-- FREE FIRE -->
+<button onclick="login()">Login</button>
 
-<div class="card">
+<p>New player?</p>
 
-<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e">
-
-<div class="card-body">
-
-<h3>Free Fire Battle Royale</h3>
-
-<p>Prize Pool ₹2000</p>
-
-<p>Entry Fee ₹50</p>
-
-<p>Slots Left <span id="slots1">20</span>/48</p>
-
-<button onclick="join(50,'room1')">JOIN TOURNAMENT</button>
-
-</div>
-</div>
-
-
-<!-- BGMI -->
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420">
-
-<div class="card-body">
-
-<h3>BGMI Duo Domination</h3>
-
-<p>Prize Pool ₹5000</p>
-
-<p>Entry Fee ₹100</p>
-
-<p>Slots Left <span id="slots2">42</span>/100</p>
-
-<button onclick="join(100,'room2')">JOIN TOURNAMENT</button>
-
-</div>
-</div>
-
-
-<!-- LONE WOLF -->
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
-
-<div class="card-body">
-
-<h3>Free Fire Lone Wolf 1v1</h3>
-
-<p>Prize Pool ₹1000</p>
-
-<p>Entry Fee ₹30</p>
-
-<p>Slots Left <span id="slots3">30</span>/64</p>
-
-<button onclick="join(30,'room3')">JOIN TOURNAMENT</button>
-
-</div>
-</div>
+<button onclick="showSignup()">Sign Up</button>
 
 </div>
 
 
-<!-- ROOM PAGE -->
+<!-- SIGNUP PAGE -->
 
-<div id="room" class="container hidden">
+<div id="signupPage" class="container hidden">
 
-<h2>Room Details</h2>
+<h3>Create Account</h3>
 
-<p>Room ID : 4589652</p>
+<input id="signUser" placeholder="Username"><br>
 
-<p>Password : 12345</p>
+<input id="signPass" type="password" placeholder="Password"><br>
 
-</div>
-
-
-<!-- WALLET PAGE -->
-
-<div id="walletPage" class="container hidden">
-
-<h2>Add Money</h2>
-
-<p>UPI ID : esports@upi</p>
-
-<input id="addMoney" placeholder="Enter Amount">
-
-<button onclick="addMoney()">Add to Wallet</button>
+<button onclick="signup()">Create Account</button>
 
 </div>
 
 
-<!-- LEADERBOARD -->
+<!-- HOME PAGE -->
 
-<div id="leaderboard" class="container hidden">
+<div id="homePage" class="container hidden">
 
-<h2>Leaderboard</h2>
+<h3>Welcome to Free Fire Arena</h3>
 
-<p>1️⃣ PlayerX - 50 pts</p>
+<p>Select Game Mode</p>
 
-<p>2️⃣ Ninja - 40 pts</p>
+<button onclick="alert('Bermuda Match')">Bermuda</button>
 
-<p>3️⃣ Shadow - 30 pts</p>
+<button onclick="alert('Clash Squad')">Clash Squad</button>
 
-</div>
+<button onclick="alert('Lone Wolf')">Lone Wolf</button>
 
+<br><br>
 
-<!-- ADMIN PANEL -->
+<button onclick="showUPI()">Add Money</button>
 
-<div id="admin" class="container hidden">
-
-<h2>Admin Panel</h2>
-
-<input id="tName" placeholder="Tournament Name">
-
-<input id="tPrize" placeholder="Prize Pool">
-
-<input id="tFee" placeholder="Entry Fee">
-
-<button onclick="createTournament()">Create Tournament</button>
+<button onclick="showAdmin()">Admin</button>
 
 </div>
 
 
-<!-- REGISTER POPUP -->
+<!-- UPI PAGE -->
 
-<div id="registerBox" style="
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000000cc;
-display:none;
-justify-content:center;
-align-items:center;
-">
+<div id="upiPage" class="container hidden">
 
-<div style="background:#0f2d31;padding:20px;border-radius:10px;width:300px">
+<h3>UPI Payment</h3>
 
-<h3>Player Registration</h3>
+<p>Send payment to UPI ID:</p>
 
-<input id="playerName" placeholder="Player Name">
+<h4>freefire@upi</h4>
 
-<input id="playerUID" placeholder="Game UID">
-
-<button onclick="confirmJoin()">Confirm Join</button>
-
-</div>
+<p>After payment admin will add wallet balance.</p>
 
 </div>
 
 
-<!-- NAVIGATION -->
+<!-- ADMIN LOGIN -->
 
-<div class="nav">
+<div id="adminLogin" class="container hidden">
 
-<div onclick="showPage('home')">Home</div>
+<h3>Admin Login</h3>
 
-<div onclick="showPage('leaderboard')">Leaderboard</div>
+<input id="adminUser" placeholder="Admin Username"><br>
 
-<div onclick="showPage('walletPage')">Wallet</div>
+<input id="adminPass" type="password" placeholder="Password"><br>
 
-<div onclick="showPage('admin')">Admin</div>
+<button onclick="adminLogin()">Login</button>
+
+</div>
+
+
+<!-- ADMIN DASHBOARD -->
+
+<div id="adminPanel" class="container hidden">
+
+<h3>Admin Dashboard</h3>
+
+<p>Update Room ID</p>
+
+<input placeholder="Room ID"><br>
+
+<input placeholder="Password"><br>
+
+<button>Update Room</button>
 
 </div>
 
 
 <script>
 
-let wallet = 500
+function showSignup(){
+document.getElementById("loginPage").classList.add("hidden")
+document.getElementById("signupPage").classList.remove("hidden")
+}
 
-let slots1 = 20
-let slots2 = 42
-let slots3 = 30
+function signup(){
 
-let currentFee = 0
-let currentRoom = ""
-
-function showPage(page){
-
-document.getElementById("home").classList.add("hidden")
-document.getElementById("leaderboard").classList.add("hidden")
-document.getElementById("walletPage").classList.add("hidden")
-document.getElementById("admin").classList.add("hidden")
-document.getElementById("room").classList.add("hidden")
-
-document.getElementById(page).classList.remove("hidden")
+fetch("/signup",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:document.getElementById("signUser").value,
+password:document.getElementById("signPass").value
+})
+})
+.then(r=>r.json())
+.then(d=>{
+if(d.status==="ok"){
+alert("Account created")
+location.reload()
+}else{
+alert("User exists")
+}
+})
 
 }
 
-function join(fee,room){
+function login(){
 
-currentFee = fee
-currentRoom = room
-
-document.getElementById("registerBox").style.display="flex"
+fetch("/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:document.getElementById("loginUser").value,
+password:document.getElementById("loginPass").value
+})
+})
+.then(r=>r.json())
+.then(d=>{
+if(d.status==="ok"){
+document.getElementById("loginPage").classList.add("hidden")
+document.getElementById("homePage").classList.remove("hidden")
+}else{
+alert("Login failed")
+}
+})
 
 }
 
-function confirmJoin(){
+function showUPI(){
 
-let name = document.getElementById("playerName").value
-let uid = document.getElementById("playerUID").value
-
-if(name=="" || uid==""){
-alert("Enter Name and UID")
-return
-}
-
-if(wallet < currentFee){
-alert("Not enough wallet balance")
-return
-}
-
-wallet -= currentFee
-
-document.getElementById("wallet").innerText = wallet
-
-if(currentRoom=="room1"){
-slots1--
-document.getElementById("slots1").innerText = slots1
-}
-
-if(currentRoom=="room2"){
-slots2--
-document.getElementById("slots2").innerText = slots2
-}
-
-if(currentRoom=="room3"){
-slots3--
-document.getElementById("slots3").innerText = slots3
-}
-
-alert("Registration Successful")
-
-document.getElementById("registerBox").style.display="none"
-
-showPage("room")
+document.getElementById("homePage").classList.add("hidden")
+document.getElementById("upiPage").classList.remove("hidden")
 
 }
 
-function addMoney(){
+function showAdmin(){
 
-let amount = Number(document.getElementById("addMoney").value)
-
-wallet += amount
-
-document.getElementById("wallet").innerText = wallet
-
-alert("Money Added")
+document.getElementById("homePage").classList.add("hidden")
+document.getElementById("adminLogin").classList.remove("hidden")
 
 }
 
-function createTournament(){
+function adminLogin(){
 
-let name = document.getElementById("tName").value
-let prize = document.getElementById("tPrize").value
-let fee = document.getElementById("tFee").value
+let u=document.getElementById("adminUser").value
+let p=document.getElementById("adminPass").value
 
-alert("Tournament Created: "+name)
+if(u==="admin" && p==="12345"){
+document.getElementById("adminLogin").classList.add("hidden")
+document.getElementById("adminPanel").classList.remove("hidden")
+}else{
+alert("Wrong admin login")
+}
 
 }
 
