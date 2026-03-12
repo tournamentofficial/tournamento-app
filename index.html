@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Fire Tournament</title>
+<title>Tournamento</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#0f172a;
+background:#071c1f;
+font-family:Arial;
 color:white;
 margin:0;
 }
 
 header{
-background:#ef4444;
+background:#0d2b2f;
 padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wallet{
+background:#00e0c6;
+color:black;
+padding:5px 10px;
+border-radius:8px;
 }
 
 .container{
@@ -27,120 +33,177 @@ padding:20px;
 }
 
 .card{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
+background:#0f2d31;
+border-radius:15px;
 margin-bottom:20px;
+overflow:hidden;
 }
 
-input,button{
+.card img{
 width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:5px;
+height:150px;
+object-fit:cover;
 }
 
-input{
-background:#334155;
-color:white;
+.card-body{
+padding:15px;
 }
 
 button{
-background:#ef4444;
+width:100%;
+padding:12px;
+margin-top:10px;
+background:linear-gradient(90deg,#ff00ff,#9d00ff);
+border:none;
+border-radius:10px;
 color:white;
-font-weight:bold;
+font-size:16px;
 cursor:pointer;
 }
 
-button:hover{
-background:#dc2626;
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:#0d2b2f;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
 }
 
-.player{
-background:#334155;
-padding:10px;
-border-radius:5px;
-margin-top:5px;
+.nav div{
+text-align:center;
+font-size:12px;
+}
+
+.hidden{
+display:none;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
-🔥 Free Fire Tournament
+
+<h2>Tournamento</h2>
+
+<div class="wallet">
+₹ <span id="wallet">500</span>
+</div>
+
 </header>
 
-<div class="container">
+<div class="container" id="home">
 
 <div class="card">
-<h2>Register Player</h2>
 
-<input id="name" placeholder="Player Name">
-<input id="uid" placeholder="Free Fire UID">
+<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1">
 
-<button onclick="register()">Join Tournament</button>
+<div class="card-body">
+
+<h3>Free Fire - Ultimate Cup</h3>
+
+<p>Prize Pool ₹2000</p>
+
+<p>Entry Fee ₹50</p>
+
+<p>Slots Left <span id="slots1">20</span>/48</p>
+
+<button onclick="join(50,'room1')">
+JOIN TOURNAMENT
+</button>
+
+</div>
 
 </div>
 
 <div class="card">
-<h2>Registered Players</h2>
 
-<div id="players"></div>
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420">
+
+<div class="card-body">
+
+<h3>BGMI - Duo Domination</h3>
+
+<p>Prize Pool ₹5000</p>
+
+<p>Entry Fee ₹100</p>
+
+<p>Slots Left <span id="slots2">42</span>/100</p>
+
+<button onclick="join(100,'room2')">
+JOIN TOURNAMENT
+</button>
 
 </div>
 
 </div>
+
+</div>
+
+
+<div id="room" class="container hidden">
+
+<h2>Room Details</h2>
+
+<p>Status: Available</p>
+
+<p>Room ID: 4589652</p>
+
+<p>Password: 12345</p>
+
+</div>
+
 
 <script>
 
-let players = JSON.parse(localStorage.getItem("players")) || [];
+let wallet=500;
 
-function showPlayers(){
+let slots1=20;
+let slots2=42;
 
-let list = document.getElementById("players");
-list.innerHTML="";
+function join(fee,room){
 
-players.forEach((p,i)=>{
-
-list.innerHTML += `
-<div class="player">
-${i+1}. ${p.name} - UID: ${p.uid}
-</div>
-`;
-
-});
-
-}
-
-function register(){
-
-let name = document.getElementById("name").value;
-let uid = document.getElementById("uid").value;
-
-if(name=="" || uid==""){
-alert("Enter all details");
+if(wallet<fee){
+alert("Not enough wallet balance");
 return;
 }
 
-players.push({name,uid});
+wallet-=fee;
 
-localStorage.setItem("players",JSON.stringify(players));
+document.getElementById("wallet").innerText=wallet;
 
-showPlayers();
+if(room=="room1"){
+slots1--;
+document.getElementById("slots1").innerText=slots1;
+}
 
-document.getElementById("name").value="";
-document.getElementById("uid").value="";
+if(room=="room2"){
+slots2--;
+document.getElementById("slots2").innerText=slots2;
+}
 
-alert("Registered Successfully!");
+alert("Payment Successful");
+
+document.getElementById("home").classList.add("hidden");
+document.getElementById("room").classList.remove("hidden");
 
 }
 
-showPlayers();
-
 </script>
+
+
+<div class="nav">
+
+<div>Home</div>
+<div>Events</div>
+<div>Wallet</div>
+<div>Profile</div>
+
+</div>
 
 </body>
 </html>
