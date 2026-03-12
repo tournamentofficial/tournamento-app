@@ -2,15 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Tournamento</title>
+<title>Esports Tournament</title>
 
 <style>
 
 body{
-background:#071c1f;
-font-family:Arial;
-color:white;
 margin:0;
+font-family:Arial;
+background:#071c1f;
+color:white;
 }
 
 header{
@@ -18,13 +18,12 @@ background:#0d2b2f;
 padding:15px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 }
 
 .wallet{
 background:#00e0c6;
 color:black;
-padding:5px 10px;
+padding:6px 12px;
 border-radius:8px;
 }
 
@@ -57,8 +56,11 @@ background:linear-gradient(90deg,#ff00ff,#9d00ff);
 border:none;
 border-radius:10px;
 color:white;
-font-size:16px;
-cursor:pointer;
+font-size:15px;
+}
+
+.hidden{
+display:none;
 }
 
 .nav{
@@ -68,35 +70,37 @@ width:100%;
 background:#0d2b2f;
 display:flex;
 justify-content:space-around;
-padding:10px 0;
+padding:10px;
 }
 
 .nav div{
-text-align:center;
 font-size:12px;
+cursor:pointer;
 }
 
-.hidden{
-display:none;
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <header>
 
-<h2>Tournamento</h2>
+<h2>Esports Arena</h2>
 
-<div class="wallet">
-₹ <span id="wallet">500</span>
-</div>
+<div class="wallet">₹ <span id="wallet">500</span></div>
 
 </header>
 
+
 <div class="container" id="home">
+
+<!-- FREE FIRE -->
 
 <div class="card">
 
@@ -104,7 +108,7 @@ display:none;
 
 <div class="card-body">
 
-<h3>Free Fire - Ultimate Cup</h3>
+<h3>Free Fire Battle Royale</h3>
 
 <p>Prize Pool ₹2000</p>
 
@@ -112,13 +116,13 @@ display:none;
 
 <p>Slots Left <span id="slots1">20</span>/48</p>
 
-<button onclick="join(50,'room1')">
-JOIN TOURNAMENT
-</button>
+<button onclick="join(50,'room1')">JOIN TOURNAMENT</button>
 
 </div>
-
 </div>
+
+
+<!-- BGMI -->
 
 <div class="card">
 
@@ -126,7 +130,7 @@ JOIN TOURNAMENT
 
 <div class="card-body">
 
-<h3>BGMI - Duo Domination</h3>
+<h3>BGMI Duo Domination</h3>
 
 <p>Prize Pool ₹5000</p>
 
@@ -134,132 +138,237 @@ JOIN TOURNAMENT
 
 <p>Slots Left <span id="slots2">42</span>/100</p>
 
-<<button onclick="join(100,'room2')">
-JOIN TOURNAMONT>
+<button onclick="join(100,'room2')">JOIN TOURNAMENT</button>
 
+</div>
+</div>
+
+
+<!-- LONE WOLF -->
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
+
+<div class="card-body">
+
+<h3>Free Fire Lone Wolf 1v1</h3>
+
+<p>Prize Pool ₹1000</p>
+
+<p>Entry Fee ₹30</p>
+
+<p>Slots Left <span id="slots3">30</span>/64</p>
+
+<button onclick="join(30,'room3')">JOIN TOURNAMENT</button>
+
+</div>
 </div>
 
 </div>
 
-</div>
 
+<!-- ROOM PAGE -->
 
 <div id="room" class="container hidden">
 
 <h2>Room Details</h2>
 
-<p>Status: Available</p>
+<p>Room ID : 4589652</p>
 
-<p>Room ID: 4589652</p>
-
-<p>Password: 12345</p>
+<p>Password : 12345</p>
 
 </div>
-  <<div id="registerBox" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000000cc;display:none;justify-content:center;align-items:center;">
+
+
+<!-- WALLET PAGE -->
+
+<div id="walletPage" class="container hidden">
+
+<h2>Add Money</h2>
+
+<p>UPI ID : esports@upi</p>
+
+<input id="addMoney" placeholder="Enter Amount">
+
+<button onclick="addMoney()">Add to Wallet</button>
+
+</div>
+
+
+<!-- LEADERBOARD -->
+
+<div id="leaderboard" class="container hidden">
+
+<h2>Leaderboard</h2>
+
+<p>1️⃣ PlayerX - 50 pts</p>
+
+<p>2️⃣ Ninja - 40 pts</p>
+
+<p>3️⃣ Shadow - 30 pts</p>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+
+<div id="admin" class="container hidden">
+
+<h2>Admin Panel</h2>
+
+<input id="tName" placeholder="Tournament Name">
+
+<input id="tPrize" placeholder="Prize Pool">
+
+<input id="tFee" placeholder="Entry Fee">
+
+<button onclick="createTournament()">Create Tournament</button>
+
+</div>
+
+
+<!-- REGISTER POPUP -->
+
+<div id="registerBox" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000000cc;
+display:none;
+justify-content:center;
+align-items:center;
 ">
 
 <div style="background:#0f2d31;padding:20px;border-radius:10px;width:300px">
 
 <h3>Player Registration</h3>
 
-<input id="playerName" placeholder="Player Name" style="width:100%;padding:10px;margin-top:10px">
+<input id="playerName" placeholder="Player Name">
 
-<input id="playerUID" placeholder="Game UID" style="width:100%;padding:10px;margin-top:10px">
+<input id="playerUID" placeholder="Game UID">
 
-<button onclick="confirmJoin()" style="margin-top:15px;width:100%;padding:10px">
-Confirm Join
-</button>
+<button onclick="confirmJoin()">Confirm Join</button>
 
 </div>
+
 </div>
-  
+
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<div onclick="showPage('home')">Home</div>
+
+<div onclick="showPage('leaderboard')">Leaderboard</div>
+
+<div onclick="showPage('walletPage')">Wallet</div>
+
+<div onclick="showPage('admin')">Admin</div>
+
+</div>
 
 
 <script>
 
-let wallet=500;
+let wallet = 500
 
-let slots1=20;
-let slots2=42;
-  
-let currentFee = 0;
-let currentRoom = "";
+let slots1 = 20
+let slots2 = 42
+let slots3 = 30
 
-function join(fee, room){
+let currentFee = 0
+let currentRoom = ""
 
-currentFee = fee;
-currentRoom = room;
+function showPage(page){
 
-document.getElementById("registerBox").style.display = "flex";
+document.getElementById("home").classList.add("hidden")
+document.getElementById("leaderboard").classList.add("hidden")
+document.getElementById("walletPage").classList.add("hidden")
+document.getElementById("admin").classList.add("hidden")
+document.getElementById("room").classList.add("hidden")
+
+document.getElementById(page).classList.remove("hidden")
+
+}
+
+function join(fee,room){
+
+currentFee = fee
+currentRoom = room
+
+document.getElementById("registerBox").style.display="flex"
 
 }
 
 function confirmJoin(){
 
-let name = document.getElementById("playerName").value;
-let uid = document.getElementById("playerUID").value;
+let name = document.getElementById("playerName").value
+let uid = document.getElementById("playerUID").value
 
 if(name=="" || uid==""){
-alert("Enter Player Name and UID");
-return;
+alert("Enter Name and UID")
+return
 }
 
 if(wallet < currentFee){
-alert("Not enough wallet balance");
-return;
+alert("Not enough wallet balance")
+return
 }
 
-wallet -= currentFee;
+wallet -= currentFee
 
-document.getElementById("wallet").innerText = wallet;
+document.getElementById("wallet").innerText = wallet
 
 if(currentRoom=="room1"){
-slots1--;
-document.getElementById("slots1").innerText = slots1;
+slots1--
+document.getElementById("slots1").innerText = slots1
 }
 
 if(currentRoom=="room2"){
-slots2--;
-document.getElementById("slots2").innerText = slots2;
+slots2--
+document.getElementById("slots2").innerText = slots2
 }
 
-alert("Registration Successful!");
+if(currentRoom=="room3"){
+slots3--
+document.getElementById("slots3").innerText = slots3
+}
 
-document.getElementById("registerBox").style.display = "none";
+alert("Registration Successful")
 
-document.getElementById("home").classList.add("hidden");
-document.getElementById("room").classList.remove("hidden");
+document.getElementById("registerBox").style.display="none"
+
+showPage("room")
 
 }
 
-if(room=="room1"){
-slots1--;
-document.getElementById("slots1").innerText=slots1;
+function addMoney(){
+
+let amount = Number(document.getElementById("addMoney").value)
+
+wallet += amount
+
+document.getElementById("wallet").innerText = wallet
+
+alert("Money Added")
+
 }
 
-if(room=="room2"){
-slots2--;
-document.getElementById("slots2").innerText=slots2;
-}
+function createTournament(){
 
-alert("Payment Successful");
+let name = document.getElementById("tName").value
+let prize = document.getElementById("tPrize").value
+let fee = document.getElementById("tFee").value
 
-document.getElementById("home").classList.add("hidden");
-document.getElementById("room").classList.remove("hidden");
+alert("Tournament Created: "+name)
 
 }
 
 </script>
-
-
-<div class="nav">
-
-<div>Home</div>
-<div>Events</div>
-<div>Wallet</div>
-<div>Profile</div>
-
-</div>
 
 </body>
 </html>
