@@ -2,120 +2,364 @@
 <html>
 <head>
 
-<title>Tournamento Pro</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Fire Tournament</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#071e22;
+color:white;
+}
+
+.app{
+max-width:420px;
+margin:auto;
+min-height:100vh;
+background:#0c2b30;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:#10363b;
+}
+
+.wallet{
+background:#18e0d1;
+color:black;
+padding:5px 12px;
+border-radius:20px;
+}
+
+.card{
+background:#12383d;
+margin:15px;
+padding:15px;
+border-radius:10px;
+}
+
+input{
+padding:10px;
+margin:6px;
+border:none;
+border-radius:6px;
+width:80%;
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:6px;
+background:#18e0d1;
+cursor:pointer;
+}
+
+.hidden{
+display:none;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+width:100%;
+max-width:420px;
+display:flex;
+justify-content:space-around;
+background:#10363b;
+padding:10px;
+}
+
+#timer{
+font-size:28px;
+color:#18e0d1;
+}
+
+</style>
 
 </head>
 
 <body>
 
+<div class="app">
+
 <header>
 
-<h1>🎮 Tournamento Pro</h1>
+<h3>🎮 FF Tournaments</h3>
 
-<div id="walletBox">
-Wallet ₹<span id="wallet">0</span>
+<div class="wallet">
+
+₹ <span id="wallet">0</span>
+
 </div>
 
 </header>
 
+<!-- LOGIN -->
 
-<section id="auth">
+<div id="login">
 
-<h2>Player Login</h2>
+<center>
 
-<input id="loginUser" placeholder="Username">
-<input id="loginPass" type="password" placeholder="Password">
+<h2>Signup</h2>
+
+<input id="suUser" placeholder="Username">
+
+<input id="suPass" type="password" placeholder="Password">
+
+<br>
+
+<button onclick="signup()">Signup</button>
+
+<h2>Login</h2>
+
+<input id="liUser" placeholder="Username">
+
+<input id="liPass" type="password" placeholder="Password">
+
+<br>
 
 <button onclick="login()">Login</button>
 
-<h3>Create Account</h3>
+</center>
 
-<input id="regUser" placeholder="Username">
-<input id="regPass" type="password" placeholder="Password">
-
-<button onclick="register()">Register</button>
-
-</section>
+</div>
 
 
+<!-- HOME -->
 
-<section id="playerPanel" class="hidden">
+<div id="home" class="hidden">
 
-<h2>Live Tournaments</h2>
+<div class="card">
 
-<div id="tournamentList"></div>
+<h3>🔥 Free Fire Squad Match</h3>
+
+Entry Fee: ₹20  
+<br>
+Players: <span id="slots">0</span>/40  
+<br>
+Prize: ₹400  
+
+<br><br>
+
+<button onclick="join()">Join Match</button>
+
+</div>
+
+</div>
 
 
-<div id="paymentSection" class="hidden">
+<!-- PAYMENT -->
 
-<h3>Enter UPI Transaction ID</h3>
+<div id="payment" class="hidden">
 
-<input id="txnInput">
+<center>
+
+<h3>💳 Payment</h3>
+
+<p>Pay ₹20 via UPI then enter Transaction ID</p>
+
+<input id="txn" placeholder="Transaction ID">
+
+<br>
 
 <button onclick="submitPayment()">Submit</button>
 
-</div>
+<h3>Match Countdown</h3>
 
-<div id="roomSection" class="hidden">
+<p id="timer">30</p>
 
 <h3>Room Details</h3>
 
-<p id="roomInfo"></p>
+<p id="room"></p>
+
+</center>
 
 </div>
 
-</section>
+
+<!-- ADMIN -->
+
+<div id="admin" class="hidden">
+
+<center>
+
+<h3>Admin Panel</h3>
+
+<p>Pending Payments</p>
+
+<div id="requests"></div>
+
+<p>Total Collection ₹ <span id="collection">0</span></p>
+
+<p>Prize ₹400</p>
+
+<p>Profit ₹ <span id="profit"></span></p>
+
+</center>
+
+</div>
 
 
+<nav class="bottom hidden" id="nav">
 
-<section id="adminLogin">
+<button onclick="showHome()">🏠</button>
 
-<h2>Admin Login</h2>
+<button onclick="showPayment()">💳</button>
 
-<input id="adminUser" placeholder="Admin ID">
-<input id="adminPass" type="password">
+<button onclick="adminLogin()">⚙️</button>
 
-<button onclick="adminLogin()">Login</button>
-
-</section>
+</nav>
 
 
+</div>
 
-<section id="adminPanel" class="hidden">
+<script>
 
-<h2>Admin Dashboard</h2>
+let users=JSON.parse(localStorage.getItem("users"))||{}
+let payments=JSON.parse(localStorage.getItem("payments"))||[]
+let slots=Number(localStorage.getItem("slots"))||0
 
-<h3>Create Tournament</h3>
+document.getElementById("slots").innerText=slots
 
-<input id="tTitle" placeholder="Title">
-<input id="tEntry" placeholder="Entry Fee">
-<input id="tSlots" placeholder="Slots">
-<input id="tPrize" placeholder="Prize">
+function signup(){
 
-<button onclick="createTournament()">Create</button>
+let u=suUser.value
+let p=suPass.value
 
+users[u]={pass:p,wallet:0}
 
-<h3>Pending Payments</h3>
+localStorage.setItem("users",JSON.stringify(users))
 
-<div id="paymentList"></div>
+alert("Account created")
 
+}
 
-<h3>Profit Dashboard</h3>
+function login(){
 
-<p>Total Collection ₹ <span id="totalCollection">0</span></p>
+let u=liUser.value
+let p=liPass.value
 
-<p>Total Prize ₹ <span id="totalPrize">0</span></p>
+if(users[u] && users[u].pass===p){
 
-<p>Your Profit ₹ <span id="profit">0</span></p>
+document.getElementById("login").classList.add("hidden")
 
-</section>
+document.getElementById("home").classList.remove("hidden")
 
+document.getElementById("nav").classList.remove("hidden")
 
-<script src="app.js"></script>
+document.getElementById("wallet").innerText=users[u].wallet
+
+}
+
+else{
+
+alert("Wrong login")
+
+}
+
+}
+
+function showHome(){
+
+home.classList.remove("hidden")
+payment.classList.add("hidden")
+
+}
+
+function showPayment(){
+
+payment.classList.remove("hidden")
+home.classList.add("hidden")
+
+}
+
+function join(){
+
+showPayment()
+
+}
+
+function submitPayment(){
+
+let txn=document.getElementById("txn").value
+
+payments.push(txn)
+
+localStorage.setItem("payments",JSON.stringify(payments))
+
+alert("Payment submitted. Wait admin approval.")
+
+}
+
+function adminLogin(){
+
+let id=prompt("Admin ID")
+let pass=prompt("Password")
+
+if(id==="owner" && pass==="ffadmin"){
+
+admin.classList.remove("hidden")
+
+loadRequests()
+
+}
+
+}
+
+function loadRequests(){
+
+let html=""
+
+payments.forEach((p,i)=>{
+
+html+=`<div class="card">
+
+Txn: ${p}
+
+<br><br>
+
+<button onclick="approve(${i})">Approve</button>
+
+</div>`
+
+})
+
+requests.innerHTML=html
+
+}
+
+function approve(i){
+
+payments.splice(i,1)
+
+slots++
+
+localStorage.setItem("slots",slots)
+
+document.getElementById("slots").innerText=slots
+
+localStorage.setItem("payments",JSON.stringify(payments))
+
+let collection=slots*20
+
+collectionDisplay(collection)
+
+}
+
+function collectionDisplay(c){
+
+document.getElementById("collection").innerText=c
+
+document.getElementById("profit").innerText=c-400
+
+}
+
+</script>
 
 </body>
 </html>
