@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Free Fire Arena</title>
+<title>Pro Tournament Arena</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
+margin:0;
 font-family:Arial;
-background:#0b1f23;
+background:#0f0f0f;
 color:white;
+}
+
+header{
+background:#111;
+padding:15px;
 text-align:center;
+font-size:22px;
+font-weight:bold;
 }
 
 .container{
@@ -18,20 +27,50 @@ padding:20px;
 }
 
 input{
+width:220px;
 padding:10px;
-margin:5px;
-width:200px;
+margin:8px;
+border:none;
+border-radius:6px;
 }
 
 button{
-padding:10px 20px;
-background:#ff00ff;
-border:none;
+background:#ff2bbf;
 color:white;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.card{
+background:#1c1c1c;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
 }
 
 .hidden{
 display:none;
+}
+
+nav{
+background:#141414;
+padding:10px;
+display:flex;
+justify-content:space-around;
+}
+
+nav button{
+background:none;
+border:none;
+color:white;
+font-size:16px;
+}
+
+.wallet{
+font-size:20px;
+margin:10px 0;
 }
 
 </style>
@@ -40,188 +79,233 @@ display:none;
 
 <body>
 
-<h2>Free Fire Arena</h2>
+<header>
+Pro Tournament Arena
+</header>
+
+<div class="container">
 
 <!-- LOGIN PAGE -->
 
-<div id="loginPage" class="container">
+<div id="loginPage">
 
-<h3>Login</h3>
+<h2>Login</h2>
 
-<input id="loginUser" placeholder="Username"><br>
-
+<input id="loginUser" placeholder="Username / Admin ID"><br>
 <input id="loginPass" type="password" placeholder="Password"><br>
 
 <button onclick="login()">Login</button>
 
-<p>New player?</p>
+<p>New Player?</p>
 
-<button onclick="showSignup()">Sign Up</button>
-
-</div>
-
-
-<!-- SIGNUP PAGE -->
-
-<div id="signupPage" class="container hidden">
-
-<h3>Create Account</h3>
-
-<input id="signUser" placeholder="Username"><br>
-
-<input id="signPass" type="password" placeholder="Password"><br>
-
-<button onclick="signup()">Create Account</button>
+<button onclick="showSignup()">Create Account</button>
 
 </div>
 
+<!-- SIGNUP -->
 
-<!-- HOME PAGE -->
+<div id="signupPage" class="hidden">
 
-<div id="homePage" class="container hidden">
+<h2>Create Account</h2>
 
-<h3>Welcome to Free Fire Arena</h3>
+<input id="signupUser" placeholder="Username"><br>
+<input id="signupPass" type="password" placeholder="Password"><br>
 
-<p>Select Game Mode</p>
-
-<button onclick="alert('Bermuda Match')">Bermuda</button>
-
-<button onclick="alert('Clash Squad')">Clash Squad</button>
-
-<button onclick="alert('Lone Wolf')">Lone Wolf</button>
+<button onclick="signup()">Register</button>
 
 <br><br>
 
-<button onclick="showUPI()">Add Money</button>
-
-<button onclick="showAdmin()">Admin</button>
+<button onclick="showLogin()">Back</button>
 
 </div>
 
+<!-- PLAYER DASHBOARD -->
 
-<!-- UPI PAGE -->
+<div id="playerPage" class="hidden">
 
-<div id="upiPage" class="container hidden">
+<nav>
+<button onclick="showSection('home')">Home</button>
+<button onclick="showSection('wallet')">Wallet</button>
+<button onclick="showSection('leaderboard')">Leaderboard</button>
+<button onclick="logout()">Logout</button>
+</nav>
 
-<h3>UPI Payment</h3>
+<div id="home">
 
-<p>Send payment to UPI ID:</p>
+<h3>Available Tournaments</h3>
 
-<h4>freefire@upi</h4>
-
-<p>After payment admin will add wallet balance.</p>
-
-</div>
-
-
-<!-- ADMIN LOGIN -->
-
-<div id="adminLogin" class="container hidden">
-
-<h3>Admin Login</h3>
-
-<input id="adminUser" placeholder="Admin Username"><br>
-
-<input id="adminPass" type="password" placeholder="Password"><br>
-
-<button onclick="adminLogin()">Login</button>
+<div id="tournamentList"></div>
 
 </div>
 
+<div id="wallet" class="hidden">
 
-<!-- ADMIN DASHBOARD -->
+<h3>Wallet</h3>
 
-<div id="adminPanel" class="container hidden">
+<div class="wallet">
+Balance: ₹ <span id="walletAmount">0</span>
+</div>
 
-<h3>Admin Dashboard</h3>
+<h4>Deposit via UPI</h4>
 
-<p>Update Room ID</p>
+<input id="depositAmount" placeholder="Amount">
 
-<input placeholder="Room ID"><br>
-
-<input placeholder="Password"><br>
-
-<button>Update Room</button>
+<button onclick="deposit()">Request Deposit</button>
 
 </div>
 
+<div id="leaderboard" class="hidden">
+
+<h3>Leaderboard</h3>
+
+<div id="leaderboardList"></div>
+
+</div>
+
+</div>
+
+<!-- ADMIN PANEL -->
+
+<div id="adminPage" class="hidden">
+
+<nav>
+<button onclick="showAdmin('dashboard')">Dashboard</button>
+<button onclick="showAdmin('create')">Create Tournament</button>
+<button onclick="logout()">Logout</button>
+</nav>
+
+<div id="dashboard">
+
+<h3>Admin Stats</h3>
+
+<p>Total Earnings: ₹ <span id="earnings">0</span></p>
+<p>Total Commission: ₹ <span id="commission">0</span></p>
+
+</div>
+
+<div id="create" class="hidden">
+
+<h3>Create Tournament</h3>
+
+<input id="tName" placeholder="Tournament Name"><br>
+<input id="tFee" placeholder="Entry Fee"><br>
+<input id="tPrize" placeholder="Prize"><br>
+
+<button onclick="createTournament()">Create</button>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
+let currentUser=""
+
 function showSignup(){
-document.getElementById("loginPage").classList.add("hidden")
-document.getElementById("signupPage").classList.remove("hidden")
+loginPage.classList.add("hidden")
+signupPage.classList.remove("hidden")
+}
+
+function showLogin(){
+signupPage.classList.add("hidden")
+loginPage.classList.remove("hidden")
+}
+
+function showSection(id){
+
+home.classList.add("hidden")
+wallet.classList.add("hidden")
+leaderboard.classList.add("hidden")
+
+document.getElementById(id).classList.remove("hidden")
+
+}
+
+function showAdmin(id){
+
+dashboard.classList.add("hidden")
+create.classList.add("hidden")
+
+document.getElementById(id).classList.remove("hidden")
+
 }
 
 function signup(){
 
-fetch("/signup",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-username:document.getElementById("signUser").value,
-password:document.getElementById("signPass").value
-})
-})
-.then(r=>r.json())
-.then(d=>{
-if(d.status==="ok"){
-alert("Account created")
-location.reload()
-}else{
-alert("User exists")
-}
-})
+alert("Signup function should connect to backend")
 
 }
 
 function login(){
 
-fetch("/login",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-username:document.getElementById("loginUser").value,
-password:document.getElementById("loginPass").value
-})
-})
-.then(r=>r.json())
-.then(d=>{
-if(d.status==="ok"){
-document.getElementById("loginPage").classList.add("hidden")
-document.getElementById("homePage").classList.remove("hidden")
-}else{
-alert("Login failed")
-}
-})
+const user=loginUser.value
+const pass=loginPass.value
 
+if(user==="shourya@1234" && pass==="8687049733"){
+
+loginPage.classList.add("hidden")
+adminPage.classList.remove("hidden")
+
+return
 }
 
-function showUPI(){
+currentUser=user
 
-document.getElementById("homePage").classList.add("hidden")
-document.getElementById("upiPage").classList.remove("hidden")
+loginPage.classList.add("hidden")
+playerPage.classList.remove("hidden")
+
+loadTournaments()
 
 }
 
-function showAdmin(){
+function logout(){
 
-document.getElementById("homePage").classList.add("hidden")
-document.getElementById("adminLogin").classList.remove("hidden")
+location.reload()
 
 }
 
-function adminLogin(){
+function loadTournaments(){
 
-let u=document.getElementById("adminUser").value
-let p=document.getElementById("adminPass").value
+let html=""
 
-if(u==="admin" && p==="12345"){
-document.getElementById("adminLogin").classList.add("hidden")
-document.getElementById("adminPanel").classList.remove("hidden")
-}else{
-alert("Wrong admin login")
+for(let i=1;i<=5;i++){
+
+html+=`
+<div class="card">
+<h3>Solo Battle ${i}</h3>
+Entry Fee: ₹50<br>
+Prize: ₹500<br>
+<button onclick="join(${i})">Join</button>
+</div>
+`
+
 }
+
+tournamentList.innerHTML=html
+
+}
+
+function join(id){
+
+alert("Joined Tournament "+id)
+
+}
+
+function deposit(){
+
+const amount=depositAmount.value
+
+alert("Deposit request for ₹"+amount)
+
+}
+
+function createTournament(){
+
+const name=tName.value
+
+alert("Tournament Created: "+name)
 
 }
 
