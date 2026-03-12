@@ -1,329 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pro Tournament Arena</title>
+<title>Tournamento Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
+<link rel="stylesheet" href="style.css">
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins;
-}
-
-body{
-background:linear-gradient(135deg,#0f0f0f,#1c1c2e);
-color:white;
-}
-
-/* NAVBAR */
-
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-background:#111;
-}
-
-.logo{
-font-size:24px;
-font-weight:600;
-color:#ff3cac;
-}
-
-.nav-links a{
-margin-left:25px;
-text-decoration:none;
-color:white;
-transition:.3s;
-}
-
-.nav-links a:hover{
-color:#ff3cac;
-}
-
-/* HERO */
-
-.hero{
-text-align:center;
-padding:60px 20px;
-}
-
-.hero h1{
-font-size:45px;
-}
-
-.hero p{
-color:#aaa;
-margin-top:10px;
-}
-
-/* TOURNAMENTS */
-
-.container{
-max-width:1200px;
-margin:auto;
-padding:20px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:25px;
-}
-
-/* CARD */
-
-.card{
-background:#161625;
-border-radius:15px;
-overflow:hidden;
-transition:.4s;
-box-shadow:0 0 20px rgba(0,0,0,.5);
-}
-
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 20px #ff3cac;
-}
-
-.card img{
-width:100%;
-height:160px;
-object-fit:cover;
-}
-
-.card-body{
-padding:20px;
-}
-
-.card-body h3{
-margin-bottom:10px;
-}
-
-.card-body p{
-color:#aaa;
-margin-bottom:15px;
-}
-
-/* BUTTON */
-
-.btn{
-padding:12px;
-border:none;
-width:100%;
-border-radius:10px;
-background:linear-gradient(45deg,#ff3cac,#784ba0);
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
-}
-
-/* WALLET */
-
-.wallet{
-max-width:500px;
-margin:50px auto;
-background:#161625;
-padding:25px;
-border-radius:15px;
-text-align:center;
-}
-
-.wallet input{
-padding:12px;
-width:65%;
-border:none;
-border-radius:8px;
-margin-right:10px;
-}
-
-.wallet button{
-padding:12px 20px;
-border:none;
-border-radius:8px;
-background:#ff3cac;
-color:white;
-cursor:pointer;
-}
-
-/* LEADERBOARD */
-
-.leaderboard{
-max-width:700px;
-margin:50px auto;
-background:#161625;
-padding:25px;
-border-radius:15px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #333;
-}
-
-/* LOGIN */
-
-.login-page{
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
-
-.login-box{
-background:#161625;
-padding:40px;
-border-radius:15px;
-width:320px;
-}
-
-.login-box input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:none;
-border-radius:8px;
-}
-
-.login-box button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:linear-gradient(45deg,#ff3cac,#784ba0);
-color:white;
-cursor:pointer;
-}
-
-@media(max-width:768px){
-
-.navbar{
-flex-direction:column;
-}
-
-.hero h1{
-font-size:32px;
-}
-
-}
-
-</style>
 </head>
-
 
 <body>
 
-<div class="navbar">
+<header>
 
-<div class="logo">⚡ Pro Arena</div>
+<h1>🎮 Tournamento Pro</h1>
 
-<div class="nav-links">
-<a href="#">Home</a>
-<a href="#">Wallet</a>
-<a href="#">Leaderboard</a>
-<a href="#">Logout</a>
+<div id="walletBox">
+Wallet ₹<span id="wallet">0</span>
 </div>
 
-</div>
+</header>
 
 
-<div class="hero">
+<section id="auth">
 
-<h1>Compete. Win. Earn.</h1>
-<p>Join tournaments and win real rewards</p>
+<h2>Player Login</h2>
 
-</div>
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Password">
 
+<button onclick="login()">Login</button>
 
-<div class="container">
+<h3>Create Account</h3>
 
-<div class="grid">
+<input id="regUser" placeholder="Username">
+<input id="regPass" type="password" placeholder="Password">
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e">
-<div class="card-body">
-<h3>Solo Battle</h3>
-<p>Entry Fee ₹50</p>
-<p>Prize ₹500</p>
-<button class="btn">Join Tournament</button>
-</div>
-</div>
+<button onclick="register()">Register</button>
+
+</section>
 
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1">
-<div class="card-body">
-<h3>Pro Battle</h3>
-<p>Entry Fee ₹100</p>
-<p>Prize ₹1000</p>
-<button class="btn">Join Tournament</button>
-</div>
-</div>
+
+<section id="playerPanel" class="hidden">
+
+<h2>Live Tournaments</h2>
+
+<div id="tournamentList"></div>
 
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6">
-<div class="card-body">
-<h3>Elite Arena</h3>
-<p>Entry Fee ₹200</p>
-<p>Prize ₹5000</p>
-<button class="btn">Join Tournament</button>
-</div>
-</div>
+<div id="paymentSection" class="hidden">
+
+<h3>Enter UPI Transaction ID</h3>
+
+<input id="txnInput">
+
+<button onclick="submitPayment()">Submit</button>
 
 </div>
 
-</div>
+<div id="roomSection" class="hidden">
 
+<h3>Room Details</h3>
 
-<div class="wallet">
-
-<h2>Wallet Balance ₹0</h2>
-
-<br>
-
-<input type="number" placeholder="Enter amount">
-
-<button>Deposit</button>
+<p id="roomInfo"></p>
 
 </div>
 
+</section>
 
-<div class="leaderboard">
 
-<h2>Leaderboard</h2>
 
-<div class="row">
-<span>1. PlayerOne</span>
-<span>₹5000</span>
-</div>
+<section id="adminLogin">
 
-<div class="row">
-<span>2. GamerX</span>
-<span>₹3000</span>
-</div>
+<h2>Admin Login</h2>
 
-<div class="row">
-<span>3. ProLegend</span>
-<span>₹1500</span>
-</div>
+<input id="adminUser" placeholder="Admin ID">
+<input id="adminPass" type="password">
 
-</div>
+<button onclick="adminLogin()">Login</button>
+
+</section>
+
+
+
+<section id="adminPanel" class="hidden">
+
+<h2>Admin Dashboard</h2>
+
+<h3>Create Tournament</h3>
+
+<input id="tTitle" placeholder="Title">
+<input id="tEntry" placeholder="Entry Fee">
+<input id="tSlots" placeholder="Slots">
+<input id="tPrize" placeholder="Prize">
+
+<button onclick="createTournament()">Create</button>
+
+
+<h3>Pending Payments</h3>
+
+<div id="paymentList"></div>
+
+
+<h3>Profit Dashboard</h3>
+
+<p>Total Collection ₹ <span id="totalCollection">0</span></p>
+
+<p>Total Prize ₹ <span id="totalPrize">0</span></p>
+
+<p>Your Profit ₹ <span id="profit">0</span></p>
+
+</section>
+
+
+<script src="app.js"></script>
 
 </body>
 </html>
