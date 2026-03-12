@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Tournament</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+margin:0;
+}
+
+header{
+background:#ef4444;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+input,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:5px;
+}
+
+input{
+background:#334155;
+color:white;
+}
+
+button{
+background:#ef4444;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#dc2626;
+}
+
+.player{
+background:#334155;
+padding:10px;
+border-radius:5px;
+margin-top:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+🔥 Free Fire Tournament
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Register Player</h2>
+
+<input id="name" placeholder="Player Name">
+<input id="uid" placeholder="Free Fire UID">
+
+<button onclick="register()">Join Tournament</button>
+
+</div>
+
+<div class="card">
+<h2>Registered Players</h2>
+
+<div id="players"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let players = JSON.parse(localStorage.getItem("players")) || [];
+
+function showPlayers(){
+
+let list = document.getElementById("players");
+list.innerHTML="";
+
+players.forEach((p,i)=>{
+
+list.innerHTML += `
+<div class="player">
+${i+1}. ${p.name} - UID: ${p.uid}
+</div>
+`;
+
+});
+
+}
+
+function register(){
+
+let name = document.getElementById("name").value;
+let uid = document.getElementById("uid").value;
+
+if(name=="" || uid==""){
+alert("Enter all details");
+return;
+}
+
+players.push({name,uid});
+
+localStorage.setItem("players",JSON.stringify(players));
+
+showPlayers();
+
+document.getElementById("name").value="";
+document.getElementById("uid").value="";
+
+alert("Registered Successfully!");
+
+}
+
+showPlayers();
+
+</script>
+
+</body>
+</html>
