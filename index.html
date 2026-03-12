@@ -1,315 +1,329 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Pro Tournament Arena</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-body{
+*{
 margin:0;
-font-family:Arial;
-background:#0f0f0f;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins;
+}
+
+body{
+background:linear-gradient(135deg,#0f0f0f,#1c1c2e);
 color:white;
 }
 
-header{
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
 background:#111;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
 }
 
+.logo{
+font-size:24px;
+font-weight:600;
+color:#ff3cac;
+}
+
+.nav-links a{
+margin-left:25px;
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+.nav-links a:hover{
+color:#ff3cac;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:60px 20px;
+}
+
+.hero h1{
+font-size:45px;
+}
+
+.hero p{
+color:#aaa;
+margin-top:10px;
+}
+
+/* TOURNAMENTS */
+
 .container{
+max-width:1200px;
+margin:auto;
 padding:20px;
 }
 
-input{
-width:220px;
-padding:10px;
-margin:8px;
-border:none;
-border-radius:6px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
 }
 
-button{
-background:#ff2bbf;
-color:white;
+/* CARD */
+
+.card{
+background:#161625;
+border-radius:15px;
+overflow:hidden;
+transition:.4s;
+box-shadow:0 0 20px rgba(0,0,0,.5);
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 20px #ff3cac;
+}
+
+.card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
+
+.card-body{
+padding:20px;
+}
+
+.card-body h3{
+margin-bottom:10px;
+}
+
+.card-body p{
+color:#aaa;
+margin-bottom:15px;
+}
+
+/* BUTTON */
+
+.btn{
+padding:12px;
 border:none;
-padding:10px 16px;
-border-radius:6px;
+width:100%;
+border-radius:10px;
+background:linear-gradient(45deg,#ff3cac,#784ba0);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* WALLET */
+
+.wallet{
+max-width:500px;
+margin:50px auto;
+background:#161625;
+padding:25px;
+border-radius:15px;
+text-align:center;
+}
+
+.wallet input{
+padding:12px;
+width:65%;
+border:none;
+border-radius:8px;
+margin-right:10px;
+}
+
+.wallet button{
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#ff3cac;
+color:white;
 cursor:pointer;
 }
 
-.card{
-background:#1c1c1c;
-padding:15px;
-margin:10px 0;
-border-radius:10px;
+/* LEADERBOARD */
+
+.leaderboard{
+max-width:700px;
+margin:50px auto;
+background:#161625;
+padding:25px;
+border-radius:15px;
 }
 
-.hidden{
-display:none;
-}
-
-nav{
-background:#141414;
-padding:10px;
+.row{
 display:flex;
-justify-content:space-around;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #333;
 }
 
-nav button{
-background:none;
-border:none;
-color:white;
-font-size:16px;
+/* LOGIN */
+
+.login-page{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.wallet{
-font-size:20px;
+.login-box{
+background:#161625;
+padding:40px;
+border-radius:15px;
+width:320px;
+}
+
+.login-box input{
+width:100%;
+padding:12px;
 margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+.login-box button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#ff3cac,#784ba0);
+color:white;
+cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.navbar{
+flex-direction:column;
+}
+
+.hero h1{
+font-size:32px;
+}
+
 }
 
 </style>
-
 </head>
+
 
 <body>
 
-<header>
-Pro Tournament Arena
-</header>
+<div class="navbar">
+
+<div class="logo">⚡ Pro Arena</div>
+
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Wallet</a>
+<a href="#">Leaderboard</a>
+<a href="#">Logout</a>
+</div>
+
+</div>
+
+
+<div class="hero">
+
+<h1>Compete. Win. Earn.</h1>
+<p>Join tournaments and win real rewards</p>
+
+</div>
+
 
 <div class="container">
 
-<!-- LOGIN PAGE -->
+<div class="grid">
 
-<div id="loginPage">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e">
+<div class="card-body">
+<h3>Solo Battle</h3>
+<p>Entry Fee ₹50</p>
+<p>Prize ₹500</p>
+<button class="btn">Join Tournament</button>
+</div>
+</div>
 
-<h2>Login</h2>
 
-<input id="loginUser" placeholder="Username / Admin ID"><br>
-<input id="loginPass" type="password" placeholder="Password"><br>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1">
+<div class="card-body">
+<h3>Pro Battle</h3>
+<p>Entry Fee ₹100</p>
+<p>Prize ₹1000</p>
+<button class="btn">Join Tournament</button>
+</div>
+</div>
 
-<button onclick="login()">Login</button>
 
-<p>New Player?</p>
-
-<button onclick="showSignup()">Create Account</button>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6">
+<div class="card-body">
+<h3>Elite Arena</h3>
+<p>Entry Fee ₹200</p>
+<p>Prize ₹5000</p>
+<button class="btn">Join Tournament</button>
+</div>
+</div>
 
 </div>
 
-<!-- SIGNUP -->
-
-<div id="signupPage" class="hidden">
-
-<h2>Create Account</h2>
-
-<input id="signupUser" placeholder="Username"><br>
-<input id="signupPass" type="password" placeholder="Password"><br>
-
-<button onclick="signup()">Register</button>
-
-<br><br>
-
-<button onclick="showLogin()">Back</button>
-
 </div>
 
-<!-- PLAYER DASHBOARD -->
-
-<div id="playerPage" class="hidden">
-
-<nav>
-<button onclick="showSection('home')">Home</button>
-<button onclick="showSection('wallet')">Wallet</button>
-<button onclick="showSection('leaderboard')">Leaderboard</button>
-<button onclick="logout()">Logout</button>
-</nav>
-
-<div id="home">
-
-<h3>Available Tournaments</h3>
-
-<div id="tournamentList"></div>
-
-</div>
-
-<div id="wallet" class="hidden">
-
-<h3>Wallet</h3>
 
 <div class="wallet">
-Balance: ₹ <span id="walletAmount">0</span>
-</div>
 
-<h4>Deposit via UPI</h4>
+<h2>Wallet Balance ₹0</h2>
 
-<input id="depositAmount" placeholder="Amount">
+<br>
 
-<button onclick="deposit()">Request Deposit</button>
+<input type="number" placeholder="Enter amount">
 
-</div>
-
-<div id="leaderboard" class="hidden">
-
-<h3>Leaderboard</h3>
-
-<div id="leaderboardList"></div>
+<button>Deposit</button>
 
 </div>
 
+
+<div class="leaderboard">
+
+<h2>Leaderboard</h2>
+
+<div class="row">
+<span>1. PlayerOne</span>
+<span>₹5000</span>
 </div>
 
-<!-- ADMIN PANEL -->
-
-<div id="adminPage" class="hidden">
-
-<nav>
-<button onclick="showAdmin('dashboard')">Dashboard</button>
-<button onclick="showAdmin('create')">Create Tournament</button>
-<button onclick="logout()">Logout</button>
-</nav>
-
-<div id="dashboard">
-
-<h3>Admin Stats</h3>
-
-<p>Total Earnings: ₹ <span id="earnings">0</span></p>
-<p>Total Commission: ₹ <span id="commission">0</span></p>
-
+<div class="row">
+<span>2. GamerX</span>
+<span>₹3000</span>
 </div>
 
-<div id="create" class="hidden">
-
-<h3>Create Tournament</h3>
-
-<input id="tName" placeholder="Tournament Name"><br>
-<input id="tFee" placeholder="Entry Fee"><br>
-<input id="tPrize" placeholder="Prize"><br>
-
-<button onclick="createTournament()">Create</button>
-
+<div class="row">
+<span>3. ProLegend</span>
+<span>₹1500</span>
 </div>
 
 </div>
-
-</div>
-
-<script>
-
-let currentUser=""
-
-function showSignup(){
-loginPage.classList.add("hidden")
-signupPage.classList.remove("hidden")
-}
-
-function showLogin(){
-signupPage.classList.add("hidden")
-loginPage.classList.remove("hidden")
-}
-
-function showSection(id){
-
-home.classList.add("hidden")
-wallet.classList.add("hidden")
-leaderboard.classList.add("hidden")
-
-document.getElementById(id).classList.remove("hidden")
-
-}
-
-function showAdmin(id){
-
-dashboard.classList.add("hidden")
-create.classList.add("hidden")
-
-document.getElementById(id).classList.remove("hidden")
-
-}
-
-function signup(){
-
-alert("Signup function should connect to backend")
-
-}
-
-function login(){
-
-const user=loginUser.value
-const pass=loginPass.value
-
-if(user==="shourya@1234" && pass==="8687049733"){
-
-loginPage.classList.add("hidden")
-adminPage.classList.remove("hidden")
-
-return
-}
-
-currentUser=user
-
-loginPage.classList.add("hidden")
-playerPage.classList.remove("hidden")
-
-loadTournaments()
-
-}
-
-function logout(){
-
-location.reload()
-
-}
-
-function loadTournaments(){
-
-let html=""
-
-for(let i=1;i<=5;i++){
-
-html+=`
-<div class="card">
-<h3>Solo Battle ${i}</h3>
-Entry Fee: ₹50<br>
-Prize: ₹500<br>
-<button onclick="join(${i})">Join</button>
-</div>
-`
-
-}
-
-tournamentList.innerHTML=html
-
-}
-
-function join(id){
-
-alert("Joined Tournament "+id)
-
-}
-
-function deposit(){
-
-const amount=depositAmount.value
-
-alert("Deposit request for ₹"+amount)
-
-}
-
-function createTournament(){
-
-const name=tName.value
-
-alert("Tournament Created: "+name)
-
-}
-
-</script>
 
 </body>
 </html>
