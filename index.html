@@ -191,17 +191,56 @@ let wallet=500;
 
 let slots1=20;
 let slots2=42;
+  
+let currentFee = 0;
+let currentRoom = "";
 
-function join(fee,room){
+function join(fee, room){
 
-if(wallet<fee){
+currentFee = fee;
+currentRoom = room;
+
+document.getElementById("registerBox").style.display = "flex";
+
+}
+
+function confirmJoin(){
+
+let name = document.getElementById("playerName").value;
+let uid = document.getElementById("playerUID").value;
+
+if(name=="" || uid==""){
+alert("Enter Player Name and UID");
+return;
+}
+
+if(wallet < currentFee){
 alert("Not enough wallet balance");
 return;
 }
 
-wallet-=fee;
+wallet -= currentFee;
 
-document.getElementById("wallet").innerText=wallet;
+document.getElementById("wallet").innerText = wallet;
+
+if(currentRoom=="room1"){
+slots1--;
+document.getElementById("slots1").innerText = slots1;
+}
+
+if(currentRoom=="room2"){
+slots2--;
+document.getElementById("slots2").innerText = slots2;
+}
+
+alert("Registration Successful!");
+
+document.getElementById("registerBox").style.display = "none";
+
+document.getElementById("home").classList.add("hidden");
+document.getElementById("room").classList.remove("hidden");
+
+}
 
 if(room=="room1"){
 slots1--;
