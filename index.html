@@ -1,86 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Free Fire Tournament</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FF Esports Arena</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:#071e22;
+background:#0a0f1c;
 color:white;
+display:flex;
+justify-content:center;
 }
 
 .app{
-max-width:420px;
-margin:auto;
+width:420px;
 min-height:100vh;
-background:#0c2b30;
+background:linear-gradient(#0e1630,#121f44);
+padding-bottom:80px;
 }
 
 header{
 display:flex;
 justify-content:space-between;
 padding:15px;
-background:#10363b;
+background:#101b38;
 }
 
 .wallet{
-background:#18e0d1;
+background:#00ffd0;
 color:black;
-padding:5px 12px;
+padding:6px 14px;
 border-radius:20px;
+font-weight:bold;
 }
 
 .card{
-background:#12383d;
+background:#172a55;
 margin:15px;
-padding:15px;
-border-radius:10px;
+padding:18px;
+border-radius:12px;
+box-shadow:0 0 15px rgba(0,0,0,.4);
 }
 
 input{
+width:85%;
 padding:10px;
-margin:6px;
+margin:8px;
 border:none;
-border-radius:6px;
-width:80%;
+border-radius:8px;
 }
 
 button{
-padding:10px 15px;
+background:#00ffd0;
 border:none;
-border-radius:6px;
-background:#18e0d1;
+padding:10px 15px;
+border-radius:8px;
 cursor:pointer;
+font-weight:bold;
 }
 
-.hidden{
-display:none;
-}
+.hidden{display:none}
 
-.bottom{
+.nav{
 position:fixed;
 bottom:0;
-width:100%;
-max-width:420px;
+width:420px;
 display:flex;
 justify-content:space-around;
-background:#10363b;
+background:#101b38;
 padding:10px;
 }
 
-#timer{
+.timer{
 font-size:28px;
-color:#18e0d1;
+color:#00ffd0;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -89,13 +88,8 @@ color:#18e0d1;
 
 <header>
 
-<h3>🎮 FF Tournaments</h3>
-
-<div class="wallet">
-
-₹ <span id="wallet">0</span>
-
-</div>
+<h3>🔥 FF Esports</h3>
+<div class="wallet">₹ <span id="wallet">0</span></div>
 
 </header>
 
@@ -108,17 +102,15 @@ color:#18e0d1;
 <h2>Signup</h2>
 
 <input id="suUser" placeholder="Username">
-
 <input id="suPass" type="password" placeholder="Password">
 
 <br>
 
 <button onclick="signup()">Signup</button>
 
-<h2>Login</h2>
+<h3>Login</h3>
 
 <input id="liUser" placeholder="Username">
-
 <input id="liPass" type="password" placeholder="Password">
 
 <br>
@@ -129,29 +121,13 @@ color:#18e0d1;
 
 </div>
 
-
 <!-- HOME -->
 
 <div id="home" class="hidden">
 
-<div class="card">
-
-<h3>🔥 Free Fire Squad Match</h3>
-
-Entry Fee: ₹20  
-<br>
-Players: <span id="slots">0</span>/40  
-<br>
-Prize: ₹400  
-
-<br><br>
-
-<button onclick="join()">Join Match</button>
+<div id="tournaments"></div>
 
 </div>
-
-</div>
-
 
 <!-- PAYMENT -->
 
@@ -159,62 +135,62 @@ Prize: ₹400
 
 <center>
 
-<h3>💳 Payment</h3>
+<div class="card">
 
-<p>Pay ₹20 via UPI then enter Transaction ID</p>
+<h3>💳 Pay Entry Fee</h3>
 
 <input id="txn" placeholder="Transaction ID">
 
 <br>
 
-<button onclick="submitPayment()">Submit</button>
+<button onclick="submitPayment()">Submit Payment</button>
 
 <h3>Match Countdown</h3>
 
-<p id="timer">30</p>
+<div class="timer" id="timer">30</div>
 
 <h3>Room Details</h3>
 
 <p id="room"></p>
 
+</div>
+
 </center>
 
 </div>
-
 
 <!-- ADMIN -->
 
 <div id="admin" class="hidden">
 
-<center>
+<div class="card">
 
-<h3>Admin Panel</h3>
+<h3>⚙ Admin Panel</h3>
 
-<p>Pending Payments</p>
+<button onclick="createTournament()">Create Tournament</button>
+
+<button onclick="changeAdminPassword()">Change Password</button>
+
+<hr>
 
 <div id="requests"></div>
 
+<hr>
+
 <p>Total Collection ₹ <span id="collection">0</span></p>
-
-<p>Prize ₹400</p>
-
-<p>Profit ₹ <span id="profit"></span></p>
-
-</center>
+<p>Total Profit ₹ <span id="profit">0</span></p>
 
 </div>
 
+</div>
 
-<nav class="bottom hidden" id="nav">
+<nav class="nav hidden" id="nav">
 
 <button onclick="showHome()">🏠</button>
-
 <button onclick="showPayment()">💳</button>
-
-<button onclick="adminLogin()">⚙️</button>
+<button onclick="adminLogin()">⚙</button>
 
 </nav>
-
 
 </div>
 
@@ -222,9 +198,42 @@ Prize: ₹400
 
 let users=JSON.parse(localStorage.getItem("users"))||{}
 let payments=JSON.parse(localStorage.getItem("payments"))||[]
-let slots=Number(localStorage.getItem("slots"))||0
+let tournaments=JSON.parse(localStorage.getItem("tournaments"))||[
+{name:"Free Fire Squad",fee:20,slots:0,max:40,prize:400}
+]
 
-document.getElementById("slots").innerText=slots
+if(!localStorage.getItem("adminID")){
+localStorage.setItem("adminID","shourya")
+localStorage.setItem("adminPass","868749733")
+}
+
+renderTournaments()
+
+function renderTournaments(){
+
+let html=""
+
+tournaments.forEach((t,i)=>{
+
+html+=`<div class="card">
+
+<h3>🔥 ${t.name}</h3>
+
+Entry Fee: ₹${t.fee}<br>
+Players: ${t.slots}/${t.max}<br>
+Prize: ₹${t.prize}
+
+<br><br>
+
+<button onclick="join(${i})">Join</button>
+
+</div>`
+
+})
+
+document.getElementById("tournaments").innerHTML=html
+
+}
 
 function signup(){
 
@@ -246,53 +255,45 @@ let p=liPass.value
 
 if(users[u] && users[u].pass===p){
 
-document.getElementById("login").classList.add("hidden")
+login.classList.add("hidden")
+home.classList.remove("hidden")
+nav.classList.remove("hidden")
 
-document.getElementById("home").classList.remove("hidden")
-
-document.getElementById("nav").classList.remove("hidden")
-
-document.getElementById("wallet").innerText=users[u].wallet
+wallet.innerText=users[u].wallet
 
 }
 
-else{
-
-alert("Wrong login")
-
-}
+else alert("Wrong login")
 
 }
 
 function showHome(){
-
 home.classList.remove("hidden")
 payment.classList.add("hidden")
-
 }
 
 function showPayment(){
-
 payment.classList.remove("hidden")
 home.classList.add("hidden")
-
 }
 
-function join(){
+function join(i){
 
 showPayment()
+
+startTimer()
 
 }
 
 function submitPayment(){
 
-let txn=document.getElementById("txn").value
+let txn=txn.value
 
 payments.push(txn)
 
 localStorage.setItem("payments",JSON.stringify(payments))
 
-alert("Payment submitted. Wait admin approval.")
+alert("Payment submitted")
 
 }
 
@@ -301,13 +302,44 @@ function adminLogin(){
 let id=prompt("Admin ID")
 let pass=prompt("Password")
 
-if(id==="owner" && pass==="ffadmin"){
+if(id===localStorage.getItem("adminID") && pass===localStorage.getItem("adminPass")){
 
 admin.classList.remove("hidden")
 
 loadRequests()
 
 }
+
+else alert("Wrong Admin")
+
+}
+
+function changeAdminPassword(){
+
+let p=prompt("New Password")
+
+if(p){
+
+localStorage.setItem("adminPass",p)
+
+alert("Password changed")
+
+}
+
+}
+
+function createTournament(){
+
+let name=prompt("Tournament name")
+let fee=prompt("Entry fee")
+let max=prompt("Max players")
+let prize=prompt("Prize")
+
+tournaments.push({name:name,fee:fee,slots:0,max:max,prize:prize})
+
+localStorage.setItem("tournaments",JSON.stringify(tournaments))
+
+renderTournaments()
 
 }
 
@@ -319,7 +351,7 @@ payments.forEach((p,i)=>{
 
 html+=`<div class="card">
 
-Txn: ${p}
+Transaction: ${p}
 
 <br><br>
 
@@ -337,15 +369,15 @@ function approve(i){
 
 payments.splice(i,1)
 
-slots++
-
-localStorage.setItem("slots",slots)
-
-document.getElementById("slots").innerText=slots
+tournaments[0].slots++
 
 localStorage.setItem("payments",JSON.stringify(payments))
 
-let collection=slots*20
+localStorage.setItem("tournaments",JSON.stringify(tournaments))
+
+renderTournaments()
+
+let collection=tournaments[0].slots*20
 
 collectionDisplay(collection)
 
@@ -353,9 +385,24 @@ collectionDisplay(collection)
 
 function collectionDisplay(c){
 
-document.getElementById("collection").innerText=c
+collection.innerText=c
+profit.innerText=c-400
 
-document.getElementById("profit").innerText=c-400
+}
+
+function startTimer(){
+
+let t=30
+
+let timer=setInterval(()=>{
+
+document.getElementById("timer").innerText=t
+
+t--
+
+if(t<0) clearInterval(timer)
+
+},1000)
 
 }
 
